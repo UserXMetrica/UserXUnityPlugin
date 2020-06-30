@@ -22,7 +22,7 @@ public class UserXKitExtension : MonoBehaviour
     private static extern void _UserXPluginAddEvent(string e);
 
     [DllImport("__Internal")]
-    private static extern void _UserXPluginShowScreen(string scr, string parentScr);
+    private static extern void _UserXPluginStartScreen(string scr, string parentScr);
 
     [RuntimeInitializeOnLoadMethod]
     private static void Initialize()
@@ -68,10 +68,10 @@ public class UserXKitExtension : MonoBehaviour
 #endif
     }
 
-    public static void ShowScreen(string scr, string parentScr = null)
+    public static void StartScreen(string scr, string parentScr = null)
     {
 #if UNITY_IOS && !UNITY_EDITOR
-        _UserXPluginShowScreen(scr, parentScr);
+        _UserXPluginStartScreen(scr, parentScr);
 #endif
     }
 }

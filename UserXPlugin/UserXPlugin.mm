@@ -71,7 +71,7 @@ extern "C"
 #endif
     }
 
-    void _UserXPluginShowScreen(const char *scr, const char *parentScr)
+    void _UserXPluginStartScreen(const char *scr, const char *parentScr)
     {
 #if !TARGET_OS_SIMULATOR
         if (scr) {
