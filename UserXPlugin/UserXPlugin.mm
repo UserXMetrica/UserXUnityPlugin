@@ -71,6 +71,38 @@ extern "C"
 #endif
     }
 
+    void _UserXPluginAddEventParams(const char *e, char **parametrs)
+    {
+#if !TARGET_OS_SIMULATOR
+        if (e) {
+            //hard code one pair key value
+            char *key = parametrs[0];
+            char *value = parametrs[1];
+            
+            NSDictionary *dict = @{[NSString stringWithUTF8String:key] : [NSString stringWithUTF8String:value]};
+            [UserX addEvent:[NSString stringWithUTF8String:e] with: dict];
+        }
+#endif
+    }
+
+    void _UserXPluginAddEventParamsCount(const char *e, int paramCount, char **parametrs)
+    {
+#if !TARGET_OS_SIMULATOR
+        if (e) {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:paramCount];
+            int i = 0;
+            for (i = 0; i < paramCount; i++)
+            {
+                char *key = parametrs[0+i*2];
+                char *value = parametrs[1+i*2];
+                [dict setObject:[NSString stringWithUTF8String:value] forKey:[NSString stringWithUTF8String:key]];
+            }
+            
+            [UserX addEvent:[NSString stringWithUTF8String:e] with:dict];
+        }
+#endif
+    }
+
     void _UserXPluginStartScreen(const char *scr, const char *parentScr)
     {
 #if !TARGET_OS_SIMULATOR

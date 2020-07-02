@@ -2,6 +2,7 @@
 
 using System.Runtime.InteropServices;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class UserXKitExtension : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class UserXKitExtension : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void _UserXPluginAddEvent(string e);
 
+    [DllImport("__Internal")]
+    private static extern void _UserXPluginAddEventParamsCount(string e, int paramCount, string[] parametrs);
+    
     [DllImport("__Internal")]
     private static extern void _UserXPluginStartScreen(string scr, string parentScr);
 
@@ -65,6 +69,21 @@ public class UserXKitExtension : MonoBehaviour
     {
 #if UNITY_IOS && !UNITY_EDITOR
         _UserXPluginAddEvent(e);
+#endif
+    }
+
+    public static void AddEvent(string e, Dictionary<string, string> parametrs)
+    {
+#if UNITY_IOS && !UNITY_EDITOR
+        List<string> mutableList = new List<string>();
+        foreach( KeyValuePair<string, string> item in parametrs )
+        {
+            mutableList.Add(item.Key);
+            mutableList.Add(item.Value);
+        }
+        var param = mutableList.ToArray();
+        int count = param.Length/2;
+        _UserXPluginAddEventParamsCount(e, count, param);
 #endif
     }
 
